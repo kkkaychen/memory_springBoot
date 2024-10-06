@@ -87,6 +87,12 @@
             <version>6.20.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-fonts</artifactId>
+            <version>6.20.0</version> <!-- 請根據你的 JasperReports 版本進行匹配 -->
+        </dependency>
+
 
         <!-- 用於支援中文字體 -->
         <dependency>

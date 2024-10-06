@@ -51,7 +51,6 @@ public class GenerateReportController {
         FontFamily chineseFont = jasperFontConfig.chineseFont();
         JasperReportsContext jasperReportsContext = DefaultJasperReportsContext.getInstance();
 
-//
         jasperReportsContext.setProperty("net.sf.jasperreports.default.pdf.font.name", "NotoSansTC");
         jasperReportsContext.setProperty("net.sf.jasperreports.default.pdf.encoding", "Identity-H");
         jasperReportsContext.setProperty("net.sf.jasperreports.default.pdf.embedded", "true");
