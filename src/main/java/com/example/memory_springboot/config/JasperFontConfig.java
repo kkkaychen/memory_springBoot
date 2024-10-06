@@ -4,8 +4,6 @@ import jakarta.annotation.PostConstruct;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.fonts.FontFamily;
-import net.sf.jasperreports.engine.fonts.SimpleFontExtensionHelper;
-import net.sf.jasperreports.engine.fonts.SimpleFontFace;
 import net.sf.jasperreports.engine.fonts.SimpleFontFamily;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
