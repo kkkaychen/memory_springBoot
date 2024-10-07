@@ -4,7 +4,7 @@ import com.example.memory_springboot.config.JasperFontConfig;
 import com.example.memory_springboot.model.dto.ticket.TktDto;
 import com.example.memory_springboot.service.report.ReportService;
 import com.example.memory_springboot.service.ticket.TicketService;
-import jakarta.servlet.http.HttpServletResponse;
+
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.fonts.FontFamily;

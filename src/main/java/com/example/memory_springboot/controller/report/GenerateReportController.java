@@ -36,6 +36,4 @@ public class GenerateReportController {
         JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
     }
 
-
-
 }

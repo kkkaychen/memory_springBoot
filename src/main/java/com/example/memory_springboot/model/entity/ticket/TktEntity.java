@@ -62,4 +62,5 @@ public class TktEntity {
     @Column(name = "kind")
     private int kind;
 
+
 }
