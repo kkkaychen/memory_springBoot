@@ -62,5 +62,24 @@ public class TktEntity {
     @Column(name = "kind")
     private int kind;
 
+    public TktEntity(String tktName, int originalAmount, int price,
+                     LocalDateTime tktStartdate, LocalDateTime tktEnddate, String locate,
+                     String instruction, String address, String notice, String howuse,
+                     String canxpolicy, int tktStatus, int soldAmount, int kind) {
+        this.tktName = tktName;
+        this.originalAmount = originalAmount;
+        this.price = price;
+        this.tktStartdate = tktStartdate;
+        this.tktEnddate = tktEnddate;
+        this.locate = locate;
+        this.instruction = instruction;
+        this.address = address;
+        this.notice = notice;
+        this.howuse = howuse;
+        this.canxpolicy = canxpolicy;
+        this.tktStatus = tktStatus;
+        this.soldAmount = soldAmount;
+        this.kind = kind;
+    }
 
 }

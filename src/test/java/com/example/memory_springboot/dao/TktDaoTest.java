@@ -31,7 +31,7 @@ public class TktDaoTest {
 
     @Test
     void test_create_tkt() {
-        TktEntity tkt = new TktEntity(27,"德義一日遊",
+        TktEntity tkt = new TktEntity("德義一日遊",
                 999, 1000, LocalDateTime.now(), LocalDateTime.now(),
                 "台北市", "", "", "", "",
                 "", 1, 0, 1);

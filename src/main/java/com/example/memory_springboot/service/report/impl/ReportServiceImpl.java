@@ -1,7 +1,7 @@
 package com.example.memory_springboot.service.report.impl;
 
 import com.example.memory_springboot.config.JasperFontConfig;
-import com.example.memory_springboot.model.dto.ticket.TktDto;
+import com.example.memory_springboot.model.dto.ticket.TktResDto;
 import com.example.memory_springboot.service.report.ReportService;
 import com.example.memory_springboot.service.ticket.TicketService;
 
@@ -32,7 +32,7 @@ public class ReportServiceImpl implements ReportService {
         InputStream reportStream = getClass().getResourceAsStream("/report/tkt_report.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
 
-        List<TktDto> dataList = ticketService.getTktList();
+        List<TktResDto> dataList = ticketService.getTktList();
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(dataList);
 
         Map<String, Object> parameters = new HashMap<>();
