@@ -7,11 +7,16 @@ import com.example.memory_springboot.model.entity.ticket.TktEntity;
 import com.example.memory_springboot.service.ticket.TicketService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -36,11 +41,28 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public void generateTicket(TktReqDto tktReqDto) {
         TktEntity tktEntity = tktReqDtoConvertToEntity(tktReqDto);
+
+        if (tktEntity.getTktStartdate().isBefore(LocalDateTime.now())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "票券開始日期不得小於現在時間");
+        }
+
+        if (tktEntity.getTktName().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "票券名稱不得為空值或空字串");
+        }
+
         ticketDao.save(tktEntity);
+    }
+
+    @Override
+    public void updateTicket(Integer tktNo, TktReqDto tktReqDto) {
+        // 先找看有沒有這張票券
+        Optional<TktEntity> existingTicket = ticketDao.findByTktNo(tktNo);
+        // 有票券再進行更新
     }
 
     private TktEntity tktReqDtoConvertToEntity(TktReqDto tktReqDto) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
         return new TktEntity(
                 tktReqDto.tktName(),
                 tktReqDto.originalAmount(),

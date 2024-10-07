@@ -8,4 +8,5 @@ import java.util.List;
 public interface TicketService {
     List<TktResDto> getTktList();
     void generateTicket(TktReqDto tktReqDto);
+    void updateTicket(Integer tktNo, TktReqDto tktReqDto);
 }

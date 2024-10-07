@@ -24,9 +24,4 @@ public class TicketController {
         return ResponseEntity.ok("票券新增成功");
     }
 
-
-
-
-
-
 }
