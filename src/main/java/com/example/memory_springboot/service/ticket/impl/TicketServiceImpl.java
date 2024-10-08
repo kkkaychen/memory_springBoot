@@ -56,8 +56,36 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public void updateTicket(Integer tktNo, TktReqDto tktReqDto) {
         // 先找看有沒有這張票券
-        Optional<TktEntity> existingTicket = ticketDao.findByTktNo(tktNo);
+        TktEntity existingTkt = ticketDao.findByTktNo(tktNo)
+                .orElseThrow(() -> new IllegalArgumentException("Ticket not found"));
         // 有票券再進行更新
+        existingTkt.setTktName(tktReqDto.tktName());
+        existingTkt.setPrice(tktReqDto.price());
+        existingTkt.setOriginalAmount(tktReqDto.originalAmount());
+        existingTkt.setLocate(tktReqDto.locate());
+        existingTkt.setTktStatus(tktReqDto.tktStatus());
+        existingTkt.setKind(tktReqDto.kind());
+
+        ticketDao.save(existingTkt);
+    }
+
+    @Override
+    public void deleteTicket(Integer tktNo) {
+        ticketDao.deleteById(tktNo);
+    }
+
+    @Override
+    public TktResDto getTicketDetail(Integer tktNo) {
+        TktEntity byTktNo = ticketDao.findByTktNo(tktNo)
+                .orElseThrow(() -> new IllegalArgumentException("Ticket not found"));;
+        return convertToTktDto(byTktNo);
+    }
+
+    @Override
+    public List<TktResDto> getAllTickets() {
+        return ticketDao.findAll().stream()
+                .map(this::convertToTktDto)
+                .toList();
     }
 
     private TktEntity tktReqDtoConvertToEntity(TktReqDto tktReqDto) {
