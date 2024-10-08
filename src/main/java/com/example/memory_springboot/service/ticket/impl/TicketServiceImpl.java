@@ -1,6 +1,7 @@
 package com.example.memory_springboot.service.ticket.impl;
 
-import com.example.memory_springboot.dao.ticket.TicketDao;
+import com.example.memory_springboot.dao.ticket.jpa.JpaTicketDaoImpl;
+import com.example.memory_springboot.dao.ticket.mybatis.MyBatisTicketDaoImpl;
 import com.example.memory_springboot.model.dto.ticket.TktReqDto;
 import com.example.memory_springboot.model.dto.ticket.TktResDto;
 import com.example.memory_springboot.model.entity.ticket.TktEntity;
@@ -8,30 +9,29 @@ import com.example.memory_springboot.service.ticket.TicketService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
 public class TicketServiceImpl implements TicketService {
-    private final TicketDao ticketDao;
+    private final JpaTicketDaoImpl jpaTicketDao;
+    private final MyBatisTicketDaoImpl myBatisTicketDao;
 
     @Autowired
-    public TicketServiceImpl(TicketDao ticketDao) {
-        this.ticketDao = ticketDao;
+    public TicketServiceImpl(JpaTicketDaoImpl jpaTicketDao, MyBatisTicketDaoImpl myBatisTicketDao) {
+        this.jpaTicketDao = jpaTicketDao;
+        this.myBatisTicketDao = myBatisTicketDao;
     }
 
     @Override
     public List<TktResDto> getTktList() {
 
-        return ticketDao.findAllByTktStatus(1)
+        return jpaTicketDao.findAllByTktStatus(1)
                   .stream()
                   .map(this::convertToTktDto)
                   .toList();
@@ -50,13 +50,13 @@ public class TicketServiceImpl implements TicketService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "票券名稱不得為空值或空字串");
         }
 
-        ticketDao.save(tktEntity);
+        jpaTicketDao.save(tktEntity);
     }
 
     @Override
     public void updateTicket(Integer tktNo, TktReqDto tktReqDto) {
         // 先找看有沒有這張票券
-        TktEntity existingTkt = ticketDao.findByTktNo(tktNo)
+        TktEntity existingTkt = jpaTicketDao.findByTktNo(tktNo)
                 .orElseThrow(() -> new IllegalArgumentException("Ticket not found"));
         // 有票券再進行更新
         existingTkt.setTktName(tktReqDto.tktName());
@@ -66,24 +66,31 @@ public class TicketServiceImpl implements TicketService {
         existingTkt.setTktStatus(tktReqDto.tktStatus());
         existingTkt.setKind(tktReqDto.kind());
 
-        ticketDao.save(existingTkt);
+        jpaTicketDao.save(existingTkt);
     }
 
     @Override
     public void deleteTicket(Integer tktNo) {
-        ticketDao.deleteById(tktNo);
+        jpaTicketDao.deleteById(tktNo);
     }
 
     @Override
     public TktResDto getTicketDetail(Integer tktNo) {
-        TktEntity byTktNo = ticketDao.findByTktNo(tktNo)
+        TktEntity byTktNo = jpaTicketDao.findByTktNo(tktNo)
                 .orElseThrow(() -> new IllegalArgumentException("Ticket not found"));;
         return convertToTktDto(byTktNo);
     }
 
     @Override
     public List<TktResDto> getAllTickets() {
-        return ticketDao.findAll().stream()
+        return jpaTicketDao.findAll().stream()
+                .map(this::convertToTktDto)
+                .toList();
+    }
+
+    @Override
+    public List<TktResDto> getSoldTickets() {
+        return myBatisTicketDao.getSoldTickets().stream()
                 .map(this::convertToTktDto)
                 .toList();
     }

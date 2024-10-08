@@ -2,6 +2,7 @@ package com.example.memory_springboot.service.ticket;
 
 import com.example.memory_springboot.model.dto.ticket.TktReqDto;
 import com.example.memory_springboot.model.dto.ticket.TktResDto;
+import com.example.memory_springboot.model.entity.ticket.TktEntity;
 
 import java.util.List;
 
@@ -12,4 +13,5 @@ public interface TicketService {
     void deleteTicket(Integer tktNo);
     TktResDto getTicketDetail(Integer tktNo);
     List<TktResDto> getAllTickets();
+    List<TktResDto> getSoldTickets();
 }

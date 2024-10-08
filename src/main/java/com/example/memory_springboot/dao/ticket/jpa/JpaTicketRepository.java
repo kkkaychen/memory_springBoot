@@ -1,4 +1,4 @@
-package com.example.memory_springboot.dao.ticket;
+package com.example.memory_springboot.dao.ticket.jpa;
 
 import com.example.memory_springboot.model.entity.ticket.TktEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,11 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-public interface TicketDao  {
+@Repository
+public interface JpaTicketRepository extends JpaRepository<TktEntity, Integer> {
     List<TktEntity> findAllByTktStatus(int tktStatus);
     Optional<TktEntity> findByTktNo(int tktNo);
-    TktEntity save(TktEntity tktEntity);
-    void deleteById(int tktNo);
-    List<TktEntity> findAll();
-    List<TktEntity> getSoldTickets();
 }

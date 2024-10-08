@@ -48,4 +48,11 @@ public class TicketController {
         List<TktResDto> allTickets = ticketService.getTktList();
         return ResponseEntity.ok(allTickets);
     }
+
+
+    @GetMapping("/sold")
+    public ResponseEntity<List<TktResDto>> showSoldTickets() {
+        List<TktResDto> soldTickets = ticketService.getSoldTickets();
+        return ResponseEntity.ok(soldTickets);
+    }
 }
